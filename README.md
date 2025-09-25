@@ -41,7 +41,7 @@ public enum Nivel has store, drop, copy {
 
 ### 1. Crear Empresa
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function crear_empresa --args "Nombre Empresa" --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function crear_empresa --args "Nombre Empresa"
 ```
 - **Parámetros**: `nombre: String`, `ctx: &mut TxContext`
 - **Acción**: Crea objeto `Empresa` y transfiere ownership al sender
@@ -49,7 +49,7 @@ sui client call --package <PACKAGE_ID> --module empresa --function crear_empresa
 
 ### 2. Agregar Cliente
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function agregar_cliente --args <EMPRESA_OBJECT_ID> "Juan Perez" "Calle 123" 2024 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function agregar_cliente --args <EMPRESA_OBJECT_ID> "Juan Perez" "Calle 123" 2024 1001
 ```
 - **Parámetros**: `empresa: &mut Empresa`, `nombre_cliente: String`, `direccion_facturacion: String`, `ano_de_registro: u8`, `id_cliente: u16`
 - **Validación**: `assert!(!empresa.registro_clientes.contains(&id_cliente), ID_EXISTE)`
@@ -58,7 +58,7 @@ sui client call --package <PACKAGE_ID> --module empresa --function agregar_clien
 
 ### 3. Agregar Servicio
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function agregar_servicio --args <EMPRESA_OBJECT_ID> 1001 "Servicio Premium" --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function agregar_servicio --args <EMPRESA_OBJECT_ID> 1001 "Servicio Premium"
 ```
 - **Parámetros**: `empresa: &mut Empresa`, `id_cliente: u16`, `servicio: String`
 - **Validación**: `assert!(empresa.registro_clientes.contains(&id_cliente), ID_NO_EXISTE)`
@@ -67,7 +67,7 @@ sui client call --package <PACKAGE_ID> --module empresa --function agregar_servi
 
 ### 4. Eliminar Cliente
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function eliminar_cliente --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function eliminar_cliente --args <EMPRESA_OBJECT_ID> 1001
 ```
 - **Parámetros**: `empresa: &mut Empresa`, `id_cliente: u16`
 - **Validación**: `assert!(empresa.registro_clientes.contains(&id_cliente), ID_NO_EXISTE)`
@@ -76,7 +76,7 @@ sui client call --package <PACKAGE_ID> --module empresa --function eliminar_clie
 
 ### 5. Eliminar Empresa
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function eliminar_empresa --args <EMPRESA_OBJECT_ID> --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function eliminar_empresa --args <EMPRESA_OBJECT_ID>
 ```
 - **Parámetros**: `empresa: Empresa` (by value)
 - **Acción**: Destructuring del objeto + `sui::object::delete(id)`
@@ -85,16 +85,16 @@ sui client call --package <PACKAGE_ID> --module empresa --function eliminar_empr
 ### 6-9. Cambiar Nivel de Cliente
 ```bash
 # Nivel Cobre (5%)
-sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_cobre --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_cobre --args <EMPRESA_OBJECT_ID> 1001
 
 # Nivel Plata (10%)
-sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_plata --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_plata --args <EMPRESA_OBJECT_ID> 1001
 
 # Nivel Oro (15%)
-sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_oro --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_oro --args <EMPRESA_OBJECT_ID> 1001
 
 # Nivel Diamante (20%)
-sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_diamante --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel_a_diamante --args <EMPRESA_OBJECT_ID> 1001
 ```
 - **Parámetros**: `empresa: &mut Empresa`, `id_cliente: u16`
 - **Validación**: `assert!(empresa.registro_clientes.contains(&id_cliente), ID_NO_EXISTE)`
@@ -103,7 +103,7 @@ sui client call --package <PACKAGE_ID> --module empresa --function cambiar_nivel
 
 ### 10. Aplicar Descuento
 ```bash
-sui client call --package <PACKAGE_ID> --module empresa --function aplicar_descuento --args <EMPRESA_OBJECT_ID> 1001 --gas-budget 10000000
+sui client call --package <PACKAGE_ID> --module empresa --function aplicar_descuento --args <EMPRESA_OBJECT_ID> 1001
 ```
 - **Parámetros**: `empresa: &mut Empresa`, `id_cliente: u16`
 - **Validación**: `assert!(empresa.registro_clientes.contains(&id_cliente), ID_NO_EXISTE)`
@@ -129,7 +129,7 @@ sui move build
 
 ### Publicar en Testnet
 ```bash
-sui client publish --gas-budget 20000000
+sui client publish
 ```
 
 ### Obtener Package ID
@@ -138,7 +138,7 @@ sui client publish --gas-budget 20000000
 export PACKAGE_ID=<YOUR_PACKAGE_ID>
 ```
 
-### Crear Empresa (Ejemplo Completo)
+### Crear Empresa
 ```bash
 # 1. Crear empresa
 sui client call --package $PACKAGE_ID --module empresa --function crear_empresa --args "TechCorp SA" --gas-budget 10000000
@@ -147,24 +147,17 @@ sui client call --package $PACKAGE_ID --module empresa --function crear_empresa 
 export EMPRESA_ID=<EMPRESA_OBJECT_ID>
 
 # 3. Agregar cliente
-sui client call --package $PACKAGE_ID --module empresa --function agregar_cliente --args $EMPRESA_ID "Ana García" "Av. Principal 456" 2024 1001 --gas-budget 10000000
+sui client call --package $PACKAGE_ID --module empresa --function agregar_cliente --args $EMPRESA_ID "Ana García" "Av. Principal 456" 2024 1001
 
 # 4. Cambiar a nivel oro
-sui client call --package $PACKAGE_ID --module empresa --function cambiar_nivel_a_oro --args $EMPRESA_ID 1001 --gas-budget 10000000
+sui client call --package $PACKAGE_ID --module empresa --function cambiar_nivel_a_oro --args $EMPRESA_ID 1001
 
 # 5. Aplicar descuento
-sui client call --package $PACKAGE_ID --module empresa --function aplicar_descuento --args $EMPRESA_ID 1001 --gas-budget 10000000
+sui client call --package $PACKAGE_ID --module empresa --function aplicar_descuento --args $EMPRESA_ID 1001
 ```
 
-## Gas Estimation
 
-- **crear_empresa**: ~8,000,000 gas units
-- **agregar_cliente**: ~5,000,000 gas units
-- **operaciones_simples** (cambiar_nivel, agregar_servicio): ~3,000,000 gas units
-- **aplicar_descuento**: ~4,000,000 gas units
-- **eliminar_empresa**: ~2,000,000 gas units
-
-## Configuración de Red
+## Configuracion
 
 ### Testnet
 ```toml
