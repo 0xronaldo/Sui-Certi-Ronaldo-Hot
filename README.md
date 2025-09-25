@@ -4,6 +4,12 @@
 
 El contrato implementa un sistema de gestión de empresas con registro de clientes, niveles de membresía y aplicación de descuentos.
 
+
+## El contrato fue desplegado aca el link de la suiscan
+
+https://suiscan.xyz/mainnet/object/0x6db13a6ae045f632048acf20824954e4ec04e2ed727a46210504510088c1132a/tx-blocks
+
+
 ## Estructuras de Datos
 su contenido es :
 
